@@ -1,8 +1,10 @@
-import React, { useCallback, useRef } from 'react';
+import React, { useCallback, useRef, useContext } from 'react';
 import { FiLogIn, FiMail, FiLock } from 'react-icons/fi';
 import { Form } from '@unform/web';
 import { FormHandles } from '@unform/core';
 import * as Yup from 'yup';
+
+import { AuthContext } from '../../context/AuthContext';
 
 import logo from '../../assets/logo.svg';
 
@@ -12,32 +14,49 @@ import Button from '../../components/Button';
 import { Container, Content, Background } from './styles';
 import getValidationErrors from '../../utils/getValidationErrors';
 
+interface SignInFormData {
+  email: string;
+  password: string;
+}
+
 const SignIn: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
 
-  const handleSubmitForm = useCallback(async (data: object) => {
-    try {
-      // remove all previous errors
-      formRef.current?.setErrors({});
+  const { signIn } = useContext(AuthContext);
 
-      const schema = Yup.object().shape({
-        email: Yup.string().required('O e-mail é obrigatório').email('Informe um e-mail válido'),
-        password: Yup.string().required('A senha é obrigatória'),
-      });
+  const handleSubmitForm = useCallback(
+    async (data: SignInFormData) => {
+      try {
+        // remove all previous errors
+        formRef.current?.setErrors({});
 
-      await schema.validate(data, { abortEarly: false });
-    } catch (e) {
-      const isValidationError = e instanceof Yup.ValidationError;
+        const schema = Yup.object().shape({
+          email: Yup.string()
+            .required('O e-mail é obrigatório')
+            .email('Informe um e-mail válido'),
+          password: Yup.string().required('A senha é obrigatória'),
+        });
 
-      if (!isValidationError) {
-        console.log(e);
-        return;
+        await schema.validate(data, { abortEarly: false });
+
+        signIn({
+          email: data.email,
+          password: data.password,
+        });
+      } catch (e) {
+        const isValidationError = e instanceof Yup.ValidationError;
+
+        if (!isValidationError) {
+          console.log(e);
+          return;
+        }
+
+        const validationErrors = getValidationErrors(e);
+        formRef.current?.setErrors(validationErrors);
       }
-
-      const validationErrors = getValidationErrors(e);
-      formRef.current?.setErrors(validationErrors);
-    }
-  }, []);
+    },
+    [signIn],
+  );
 
   return (
     <Container>

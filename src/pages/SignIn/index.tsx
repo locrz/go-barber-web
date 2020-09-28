@@ -4,7 +4,8 @@ import { Form } from '@unform/web';
 import { FormHandles } from '@unform/core';
 import * as Yup from 'yup';
 
-import { useAuth } from '../../hooks/AuthContext';
+import { useAuth } from '../../hooks/auth';
+import { useToast } from '../../hooks/toast';
 
 import logo from '../../assets/logo.svg';
 
@@ -23,6 +24,7 @@ const SignIn: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
 
   const { signIn } = useAuth();
+  const { addToast } = useToast();
 
   const handleSubmitForm = useCallback(
     async (data: SignInFormData) => {
@@ -39,23 +41,27 @@ const SignIn: React.FC = () => {
 
         await schema.validate(data, { abortEarly: false });
 
-        signIn({
+        await signIn({
           email: data.email,
           password: data.password,
         });
       } catch (e) {
         const isValidationError = e instanceof Yup.ValidationError;
 
-        if (!isValidationError) {
-          console.log(e);
+        if (isValidationError) {
+          const validationErrors = getValidationErrors(e);
+          formRef.current?.setErrors(validationErrors);
           return;
         }
 
-        const validationErrors = getValidationErrors(e);
-        formRef.current?.setErrors(validationErrors);
+        addToast({
+          title: 'Aconteceu um erro',
+          type: 'error',
+          description: 'Não foi possível autenticar',
+        });
       }
     },
-    [signIn],
+    [signIn, addToast],
   );
 
   return (

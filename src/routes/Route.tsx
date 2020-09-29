@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import {
   Redirect,
   Route as ReactDOMRoute,
@@ -18,18 +18,21 @@ const Route: React.FC<RouteProps> = ({
 }) => {
   const { isSigned } = useAuth();
 
-  const componentToRender = useCallback(() => {
-    const isLoggedForAccessPrivateRoutes = isPrivate === isSigned;
+  return (
+    <ReactDOMRoute
+      {...rest}
+      render={() => {
+        const isLoggedForAccessPrivateRoutes = isPrivate === isSigned;
 
-    if (isLoggedForAccessPrivateRoutes) {
-      return <Component />;
-    }
+        if (isLoggedForAccessPrivateRoutes) {
+          return <Component />;
+        }
 
-    const pathname = isPrivate ? '/' : '/home';
-    return <Redirect to={{ pathname }} />;
-  }, [isPrivate, isSigned]);
-
-  return <ReactDOMRoute {...rest} render={componentToRender} />;
+        const pathname = isPrivate ? '/' : '/home';
+        return <Redirect to={{ pathname }} />;
+      }}
+    />
+  );
 };
 
 export default Route;

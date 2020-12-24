@@ -2,8 +2,14 @@ import React, { createContext, useCallback, useContext, useState } from 'react';
 
 import api from '../services/api';
 
+interface User {
+  id: string;
+  avatar_url: string;
+  name: string;
+}
+
 interface AuthState {
-  user: object;
+  user: User;
   token: string;
 }
 interface SignInCredentials {
@@ -11,7 +17,7 @@ interface SignInCredentials {
   password: string;
 }
 interface AuthContextData {
-  user: object;
+  user: User;
   isSigned: boolean;
   signIn(credentials: SignInCredentials): Promise<void>;
   signOut(): void;
@@ -25,6 +31,8 @@ const AuthProvider: React.FC = ({ children }) => {
     const user = localStorage.getItem('@GoBarber:user');
 
     if (token && user) {
+      api.defaults.headers.authorization = `Bearer ${token}`;
+
       return {
         user: JSON.parse(user),
         token,
@@ -42,6 +50,8 @@ const AuthProvider: React.FC = ({ children }) => {
     localStorage.setItem('@GoBarber:token', token);
     localStorage.setItem('@GoBarber:user', JSON.stringify(user));
 
+    api.defaults.headers.authorization = `Bearer ${token}`;
+
     setData({ token, user });
   }, []);
 
@@ -53,7 +63,9 @@ const AuthProvider: React.FC = ({ children }) => {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user: data.user, isSigned: !!data.user, signIn, signOut }}>
+    <AuthContext.Provider
+      value={{ user: data.user, isSigned: !!data.user, signIn, signOut }}
+    >
       {children}
     </AuthContext.Provider>
   );

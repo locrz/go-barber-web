@@ -20,6 +20,7 @@ import {
   Appointment,
   Calendar,
 } from './styles';
+import { Link } from 'react-router-dom';
 
 interface IMonthAvailabilityItem {
   day: number;
@@ -136,7 +137,7 @@ const Dashboard: React.FC = () => {
             <img src={user.avatar_url} alt={user.name} />
             <div>
               <span>Bem-vindo</span>
-              <a href="#">{user.name}</a>
+              <Link to="/profile">{user.name}</Link>
             </div>
           </Profile>
 
@@ -172,7 +173,7 @@ const Dashboard: React.FC = () => {
             <strong>Manhã</strong>
 
             {morningAppointments.length === 0 && (
-              <p>Nenhum atentimento para neste período</p>
+              <p>Nenhum atendimento para este período</p>
             )}
 
             {morningAppointments.map(appointment => (
@@ -196,7 +197,7 @@ const Dashboard: React.FC = () => {
             <strong>Tarde</strong>
 
             {afternoonAppointments.length === 0 && (
-              <p>Nenhum atentimento para neste período</p>
+              <p>Nenhum atendimento para este período</p>
             )}
 
             {afternoonAppointments.map(appointment => (

@@ -15,6 +15,7 @@ import Button from '../../components/Button';
 import { Container, Content, Background, AnimationContainer } from './styles';
 import getValidationErrors from '../../utils/getValidationErrors';
 import api from '../../services/api';
+import { appInfo } from '../../configs/appInfo';
 
 interface ForgotPasswordFormData {
   email: string;
@@ -77,12 +78,14 @@ const ForgotPassword: React.FC = () => {
     <Container>
       <Content>
         <AnimationContainer>
-          <img src={logo} alt="GoBarber" />
+          <img src={appInfo.logo} alt={appInfo.name} />
 
           <Form ref={formRef} onSubmit={handleSubmitForm}>
             <h1>Recuperar senha</h1>
             <Input name="email" placeholder="E-mail" icon={FiMail} />
-            <Button loading={loading} type="submit">Recuperar</Button>
+            <Button loading={loading} type="submit">
+              Recuperar
+            </Button>
           </Form>
 
           <Link to="/">

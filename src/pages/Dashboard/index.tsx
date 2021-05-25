@@ -21,6 +21,8 @@ import {
   Calendar,
 } from './styles';
 import { Link } from 'react-router-dom';
+import { isTomorrow } from 'date-fns/esm';
+import { appInfo } from '../../configs/appInfo';
 
 interface IMonthAvailabilityItem {
   day: number;
@@ -131,7 +133,7 @@ const Dashboard: React.FC = () => {
     <Container>
       <Header>
         <HeaderContent>
-          <img src={logoImg} alt="GoBarber" />
+          <img src={appInfo.logo} alt={appInfo.name} />
 
           <Profile>
             <img src={user.avatar_url} alt={user.name} />
@@ -152,6 +154,7 @@ const Dashboard: React.FC = () => {
           <h1>Horários agendados</h1>
           <p>
             {isToday(selectedDate) && <span>Hoje</span>}
+            {isTomorrow(selectedDate) && <span>Amanhã</span>}
             <span>{selectedDayAsText}</span>
             <span>{selectedWeekDay}</span>
           </p>

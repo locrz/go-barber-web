@@ -1,6 +1,7 @@
 import React, { createContext, useCallback, useContext, useState } from 'react';
 
 import api from '../services/api';
+import { storage } from '../utils/storage';
 
 interface User {
   id: string;
@@ -29,8 +30,8 @@ const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 
 const AuthProvider: React.FC = ({ children }) => {
   const [data, setData] = useState<AuthState>(() => {
-    const token = localStorage.getItem('@GoBarber:token');
-    const user = localStorage.getItem('@GoBarber:user');
+    const token = storage.getItem('token');
+    const user = storage.getItem('user');
 
     if (token && user) {
       api.defaults.headers.authorization = `Bearer ${token}`;
@@ -49,8 +50,8 @@ const AuthProvider: React.FC = ({ children }) => {
 
     const { token, user } = response.data;
 
-    localStorage.setItem('@GoBarber:token', token);
-    localStorage.setItem('@GoBarber:user', JSON.stringify(user));
+    storage.setItem('token', token);
+    storage.setItem('user', JSON.stringify(user));
 
     api.defaults.headers.authorization = `Bearer ${token}`;
 
@@ -58,8 +59,8 @@ const AuthProvider: React.FC = ({ children }) => {
   }, []);
 
   const signOut = useCallback(() => {
-    localStorage.removeItem('@GoBarber:token');
-    localStorage.removeItem('@GoBarber:user');
+    storage.removeItem('token');
+    storage.removeItem('user');
 
     setData({} as AuthState);
   }, []);
@@ -71,7 +72,7 @@ const AuthProvider: React.FC = ({ children }) => {
         user,
       });
 
-      localStorage.setItem('@GoBarber:user', JSON.stringify(user));
+      storage.setItem('user', JSON.stringify(user));
     },
     [setData, data.token],
   );

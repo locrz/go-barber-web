@@ -15,6 +15,7 @@ import Button from '../../components/Button';
 
 import { Container, Content, Background, AnimationContainer } from './styles';
 import getValidationErrors from '../../utils/getValidationErrors';
+import { appInfo } from '../../configs/appInfo';
 
 interface SignUpFormData {
   name: string;
@@ -76,7 +77,7 @@ const SignUp: React.FC = () => {
       <Background />
       <Content>
         <AnimationContainer>
-          <img src={logo} alt="GoBarber" />
+          <img src={appInfo.logo} alt={appInfo.name} />
 
           <Form ref={formRef} onSubmit={handleSubmit}>
             <h1>Faça seu cadastro</h1>

@@ -2,6 +2,7 @@ import styled, { keyframes } from 'styled-components';
 import { shade } from 'polished';
 
 import imageBackground from '../../assets/sign-up-background.png';
+import { colors } from '../../styles/colors';
 
 export const Container = styled.div`
   height: 100vh;
@@ -65,7 +66,7 @@ export const AnimationContainer = styled.div`
 
   > a {
     display: block;
-    color: #ff9000;
+    color: ${colors.main};
     text-decoration: none;
     margin-top: 24px;
     transition: color 0.2s;
@@ -76,7 +77,7 @@ export const AnimationContainer = styled.div`
     align-items: center;
 
     &:hover {
-      color: ${shade(0.2, '#ff9000')};
+      color: ${shade(0.2, colors.main)};
     }
 
     svg {

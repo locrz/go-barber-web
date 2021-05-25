@@ -10,6 +10,7 @@ import { FiAlertCircle } from 'react-icons/fi';
 import { useField } from '@unform/core';
 
 import { Container, ErrorTooltip } from './styles';
+import { colors } from '../../styles/colors';
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   name: string;
@@ -65,7 +66,7 @@ const Input: React.FC<InputProps> = ({
       />
       {error && (
         <ErrorTooltip title={error}>
-          <FiAlertCircle color="#c53030" />
+          <FiAlertCircle color={colors.danger} />
         </ErrorTooltip>
       )}
     </Container>

@@ -15,6 +15,7 @@ import Button from '../../components/Button';
 
 import { Container, Content, Background, AnimationContainer } from './styles';
 import getValidationErrors from '../../utils/getValidationErrors';
+import { appInfo } from '../../configs/appInfo';
 
 interface SignInFormData {
   email: string;
@@ -72,7 +73,7 @@ const SignIn: React.FC = () => {
     <Container>
       <Content>
         <AnimationContainer>
-          <img src={logo} alt="GoBarber" />
+          <img src={appInfo.logo} alt={appInfo.name} />
 
           <Form ref={formRef} onSubmit={handleSubmitForm}>
             <h1>Faça seu login</h1>

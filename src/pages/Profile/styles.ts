@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { shade } from 'polished';
+import { colors } from '../../styles/colors';
 
 export const Container = styled.div`
   > header {
@@ -15,7 +16,7 @@ export const Container = styled.div`
       margin: 0 auto;
 
       svg {
-        color: #999591;
+        color: ${colors.text_secondary};
         width: 24px;
         height: 24px;
       }
@@ -48,7 +49,7 @@ export const Content = styled.div`
 
   > a {
     display: block;
-    color: #ff9000;
+    color: ${colors.main};
     text-decoration: none;
     margin-top: 24px;
     transition: color 0.2s;
@@ -59,7 +60,7 @@ export const Content = styled.div`
     align-items: center;
 
     &:hover {
-      color: ${shade(0.2, '#ff9000')};
+      color: ${shade(0.2, colors.main)};
     }
 
     svg {
@@ -84,7 +85,7 @@ export const AvatarInput = styled.div`
     position: absolute;
     width: 48px;
     height: 48px;
-    background: #ff9000;
+    background: ${colors.main};
     border-radius: 50%;
     bottom: 0;
     right: 0;
@@ -107,7 +108,7 @@ export const AvatarInput = styled.div`
     }
 
     &:hover {
-      background-color: ${shade(0.2, '#ff9000')};
+      background-color: ${shade(0.2, colors.main)};
     }
   }
 `;

@@ -1,11 +1,12 @@
 import styled from 'styled-components';
+import { colors } from '../../styles/colors';
 
 export const Container = styled.div`
   position: relative;
 
   span {
     width: 160px;
-    background: #ff9000;
+    background: ${colors.main};
     padding: 8px;
     border-radius: 4px;
 
@@ -26,7 +27,7 @@ export const Container = styled.div`
     &::before {
       content: '';
       border-style: solid;
-      border-color: #ff9000 transparent;
+      border-color: ${colors.main} transparent;
       border-width: 6px 6px 0px 6px;
 
       position: absolute;
